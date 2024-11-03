@@ -1,10 +1,9 @@
 package com.capgemini.wsb.fitnesstracker.user.api;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -12,38 +11,32 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "users")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @ToString
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
-    private Long id;
+    private Long id;  // ID użytkownika
 
     @Column(name = "first_name", nullable = false)
-    private String firstName;
+    private String firstName;  // Imię
 
     @Column(name = "last_name", nullable = false)
-    private String lastName;
+    private String lastName;  // Nazwisko
 
     @Column(name = "birthdate", nullable = false)
-    private LocalDate birthdate;
+    private LocalDate birthdate;  // Data urodzenia
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String email;  // E-mail użytkownika
 
-    public User(
-            final String firstName,
-            final String lastName,
-            final LocalDate birthdate,
-            final String email) {
-
+    // Konstruktory
+    public User(String firstName, String lastName, LocalDate birthdate, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
         this.email = email;
     }
-
 }
-
