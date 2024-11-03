@@ -18,10 +18,10 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // ID użytkownika
+    private Long id;  // ID uzytkownika
 
     @Column(name = "first_name", nullable = false)
-    private String firstName;  // Imię
+    private String firstName;  // Imie
 
     @Column(name = "last_name", nullable = false)
     private String lastName;  // Nazwisko
@@ -30,7 +30,7 @@ public class User {
     private LocalDate birthdate;  // Data urodzenia
 
     @Column(nullable = false, unique = true)
-    private String email;  // E-mail użytkownika
+    private String email;  // E-mail uzytkownika
 
     // Konstruktory
     public User(String firstName, String lastName, LocalDate birthdate, String email) {
