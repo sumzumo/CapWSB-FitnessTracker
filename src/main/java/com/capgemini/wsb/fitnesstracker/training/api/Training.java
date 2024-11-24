@@ -3,15 +3,17 @@ package com.capgemini.wsb.fitnesstracker.training.api;
 import com.capgemini.wsb.fitnesstracker.training.internal.ActivityType;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
+
+/**
+ * Entity representing a training session in the fitness tracker system.
+ */
 @Entity
 @Table(name = "trainings")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Training {
@@ -40,6 +42,16 @@ public class Training {
     @Column(name = "average_speed")
     private double averageSpeed;
 
+    /**
+     * Constructs a new training session with the specified details.
+     *
+     * @param user         the user associated with the training session
+     * @param startTime    the start time of the training session
+     * @param endTime      the end time of the training session
+     * @param activityType the type of activity performed during the training session
+     * @param distance     the distance covered during the training session
+     * @param averageSpeed the average speed achieved during the training session
+     */
     public Training(
             final User user,
             final Date startTime,
