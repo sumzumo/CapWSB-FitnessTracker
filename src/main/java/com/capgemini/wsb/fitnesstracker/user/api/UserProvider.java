@@ -4,15 +4,21 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface UserProvider {
 
-    Optional<User> getUser(Long userId);
+
+    Optional<User> getUserById(Long userId);
+
 
     List<User> getUsersOlderThan(LocalDate date);
 
+
     Optional<User> getUserByEmail(String email);
 
-    List<User> getUserByEmailIgnoreCase(String email);
 
-    List<User> findAllUsers();
+    List<User> getUsersByEmailIgnoreCase(String email);
+
+
+    List<User> getAllUsers();
 }

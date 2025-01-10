@@ -5,11 +5,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 class UserSimpleMapper {
-    UserSimpleDto toSimpleDto(User user) {
-        return new UserSimpleDto(user.getId(), user.getFirstName(), user.getLastName());
+
+    UserSimpleDto toUserSimpleDto(User user) {
+        return new UserSimpleDto(user.getUserId(), user.getFirstName(), user.getLastName());
     }
 
-    User toSimpleEntity(UserSimpleDto userDto) {
+    User toUserSimpleEntity(UserSimpleDto userDto) {
         return new User(userDto.firstName(), userDto.lastName(), null, null);
+    }
+
+    public UserSimpleDto convertToSimpleDto(User user) {
+        return toUserSimpleDto(user);
     }
 }

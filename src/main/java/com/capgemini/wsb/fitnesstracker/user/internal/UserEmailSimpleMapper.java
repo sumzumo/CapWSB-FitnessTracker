@@ -5,11 +5,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 class UserEmailSimpleMapper {
-    UserEmailSimpleDto toEmailSimpleDto(User user) {
-        return new UserEmailSimpleDto(user.getId(), user.getEmail());
+
+
+    UserEmailSimpleDto convertToEmailSimpleDto(User user) {
+        return new UserEmailSimpleDto(user.getUserId(), user.getUserEmail());
     }
 
-    User toSimpleEmailEntity(UserEmailSimpleDto userDto) {
-        return new User(null, null, null, userDto.email());
+
+    User convertToSimpleEmailEntity(UserEmailSimpleDto userEmailSimpleDto) {
+        return new User(null, null, null, userEmailSimpleDto.userEmail());
     }
 }

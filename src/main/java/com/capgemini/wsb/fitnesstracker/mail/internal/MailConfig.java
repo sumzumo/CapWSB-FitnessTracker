@@ -6,19 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-/**
- * Configuration class for mail sending.
- */
 @Configuration
 @EnableConfigurationProperties(MailProperties.class)
 class MailConfig {
-    /**
-     * Creates a JavaMailSender instance.
-     *
-     * @return JavaMailSender instance
-     */
+
     @Bean
-    public JavaMailSender javaMailSender() {
+    public JavaMailSender mailSender() {
         return new JavaMailSenderImpl();
     }
 }

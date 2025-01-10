@@ -53,7 +53,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/users/email",
+					"raw": "http://localhost:8080/v1/users/userEmail/konradjaszczyk@merito.pl",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -62,7 +62,8 @@
 					"path": [
 						"v1",
 						"users",
-						"email"
+						"userEmail",
+						"konradjaszczyk@merito.pl"
 					]
 				}
 			},
@@ -97,7 +98,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Konrad\",\r\n    \"lastName\": \"Jaszczyk\",\r\n    \"birthdate\": \"2000-02-22\",\r\n    \"email\": \"konradjaszczyk@merito.pl\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"Konrad\",\r\n    \"lastName\": \"Jaszczyk\",\r\n    \"birthDate\": \"2000-02-22\",\r\n    \"userEmail\": \"konradjaszczyk@merito.pl\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -126,7 +127,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Piotr\",\r\n    \"lastName\": \"Jaszczyk\",\r\n    \"birthdate\": \"2000-02-20\",\r\n    \"email\": \"konradjaszczyk2@merito.pl\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"Piotr\",\r\n    \"lastName\": \"Jaszczyk\",\r\n    \"birthDate\": \"2000-02-20\",\r\n    \"userEmail\": \"konradjaszczyk2@merito.pl\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -155,7 +156,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/users/4",
+					"raw": "http://localhost:8080/v1/users/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -164,7 +165,7 @@
 					"path": [
 						"v1",
 						"users",
-						"4"
+						"7"
 					]
 				}
 			},
@@ -176,7 +177,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/trainings",
+					"raw": "http://localhost:8080/v1/exerciseRecords",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -184,7 +185,7 @@
 					"port": "8080",
 					"path": [
 						"v1",
-						"trainings"
+						"exerciseRecords"
 					]
 				}
 			},
@@ -196,7 +197,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/trainings/2",
+					"raw": "http://localhost:8080/v1/exerciseRecords/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -204,7 +205,7 @@
 					"port": "8080",
 					"path": [
 						"v1",
-						"trainings",
+						"exerciseRecords",
 						"2"
 					]
 				}
@@ -217,7 +218,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/trainings/finished/2022-02-02\n",
+					"raw": "http://localhost:8080/v1/exerciseRecords/endTime/2024-01-19",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -225,9 +226,9 @@
 					"port": "8080",
 					"path": [
 						"v1",
-						"trainings",
-						"finished",
-						"2022-02-02\n"
+						"exerciseRecords",
+						"endTime",
+						"2024-01-19"
 					]
 				}
 			},
@@ -239,7 +240,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/trainings/activityType?activityType=CYCLING",
+					"raw": "http://localhost:8080/v1/exerciseRecords/category?exerciseCategory=CYCLING",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -247,12 +248,12 @@
 					"port": "8080",
 					"path": [
 						"v1",
-						"trainings",
-						"activityType"
+						"exerciseRecords",
+						"category"
 					],
 					"query": [
 						{
-							"key": "activityType",
+							"key": "exerciseCategory",
 							"value": "CYCLING"
 						}
 					]
@@ -267,7 +268,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 2,\r\n    \"startTime\": \"2024-01-01T08:00:00\",\r\n    \"endTime\": \"2024-01-01T09:00:00\",\r\n    \"activityType\": \"RUNNING\",\r\n    \"distance\": 10.5,\r\n    \"averageSpeed\": 12.3\r\n}",
+					"raw": "{\r\n  \"userReferenceId\": 2,\r\n  \"startTime\": \"2024-01-01T08:00:00\",\r\n  \"endTime\": \"2024-01-01T09:00:00\",\r\n  \"exerciseCategory\": \"RUNNING\",\r\n  \"distanceCovered\": 10.5,\r\n  \"averagePace\": 12.3\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -275,7 +276,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/trainings",
+					"raw": "http://localhost:8080/v1/exerciseRecords",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -283,7 +284,7 @@
 					"port": "8080",
 					"path": [
 						"v1",
-						"trainings"
+						"exerciseRecords"
 					]
 				}
 			},
@@ -296,7 +297,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 2,\r\n    \"startTime\": \"2024-01-01T08:00:00\",\r\n    \"endTime\": \"2024-01-01T09:00:00\",\r\n    \"activityType\": \"RUNNING\",\r\n    \"distance\": 15.5,\r\n    \"averageSpeed\": 13.2\r\n}",
+					"raw": "{\r\n  \"userReferenceId\": 2,\r\n  \"startTime\": \"2024-01-01T08:00:00\",\r\n  \"endTime\": \"2024-01-01T09:00:00\",\r\n  \"exerciseCategory\": \"RUNNING\",\r\n  \"distanceCovered\": 15.5,\r\n  \"averagePace\": 13.2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -304,7 +305,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/trainings/1",
+					"raw": "http://localhost:8080/v1/exerciseRecords/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -312,8 +313,8 @@
 					"port": "8080",
 					"path": [
 						"v1",
-						"trainings",
-						"1"
+						"exerciseRecords",
+						"2"
 					]
 				}
 			},

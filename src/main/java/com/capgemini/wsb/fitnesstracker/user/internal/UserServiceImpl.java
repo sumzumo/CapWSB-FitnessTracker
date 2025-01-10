@@ -14,14 +14,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-class UserServiceImpl implements UserService, UserProvider {
+public class UserServiceImpl implements UserService, UserProvider {
 
     private final UserRepository userRepository;
 
     @Override
     public User createUser(final User user) {
         log.info("Creating User {}", user);
-        if (user.getId() != null) {
+        if (user.getUserId() != null) {
             throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
         }
         return userRepository.save(user);
@@ -30,7 +30,7 @@ class UserServiceImpl implements UserService, UserProvider {
     @Override
     public User updateUser(final User user) {
         log.info("Updating User {}", user);
-        if (user.getId() == null) {
+        if (user.getUserId() == null) {
             throw new IllegalArgumentException("User has no DB ID, create is not permitted!");
         }
         return userRepository.save(user);
@@ -48,18 +48,13 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
-    public List<User> getUsersOlderThan(LocalDate date) {
-        return userRepository.findByBirthDateBefore(date);
+    public Optional<User> findUserByExactEmail(final String email) {
+        return userRepository.findUserByExactEmail(email);
     }
 
     @Override
-    public Optional<User> getUserByEmail(final String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public List<User> getUserByEmailIgnoreCase(final String email) {
-        return userRepository.findByEmailFragmentIgnoreCase(email);
+    public List<User> findUsersByEmailContainingIgnoreCase(final String email) {
+        return userRepository.findUsersByEmailContainingIgnoreCase(email);
     }
 
     @Override
@@ -67,4 +62,35 @@ class UserServiceImpl implements UserService, UserProvider {
         return userRepository.findAll();
     }
 
+    @Override
+    public void addUser(User user) {
+        log.info("Adding User {}", user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getUsersOlderThan(LocalDate date) {
+        return userRepository.findUsersByBirthDateBefore(date);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return Optional.empty();
+    }
+
+    // Metody z UserProvider
+    @Override
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
+    public List<User> getUsersByEmailIgnoreCase(String email) {
+        return userRepository.findUsersByEmailContainingIgnoreCase(email);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

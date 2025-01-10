@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @Table(name = "users")
@@ -18,25 +19,41 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // ID uzytkownika
+    private Long userId;
 
     @Column(name = "first_name", nullable = false)
-    private String firstName;  // Imie
+    private String firstName;
 
     @Column(name = "last_name", nullable = false)
-    private String lastName;  // Nazwisko
+    private String lastName;
 
     @Column(name = "birthdate", nullable = false)
-    private LocalDate birthdate;  // Data urodzenia
+    private LocalDate birthDate;
 
     @Column(nullable = false, unique = true)
-    private String email;  // E-mail uzytkownika
+    private String userEmail;
 
-    // Konstruktory
-    public User(String firstName, String lastName, LocalDate birthdate, String email) {
+    public User(String firstName, String lastName, LocalDate birthDate, String userEmail) {
+        if (firstName == null || firstName.isEmpty()) {
+            throw new IllegalArgumentException("First name cannot be null or empty");
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            throw new IllegalArgumentException("Last name cannot be null or empty");
+        }
+        if (birthDate == null) {
+            throw new IllegalArgumentException("Birthdate cannot be null");
+        }
+        if (userEmail == null || userEmail.isEmpty()) {
+            throw new IllegalArgumentException("User email cannot be null or empty");
+        }
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthdate = birthdate;
-        this.email = email;
+        this.birthDate = birthDate;
+        this.userEmail = userEmail;
+    }
+
+    public boolean isAboveMinimumAge(int minimumAge) {
+        Period age = Period.between(birthDate, LocalDate.now());
+        return age.getYears() >= minimumAge;
     }
 }

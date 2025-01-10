@@ -1,10 +1,10 @@
 package com.capgemini.wsb.fitnesstracker.notification.internal;
 
-import com.capgemini.wsb.fitnesstracker.mail.api.EmailDto;
-import com.capgemini.wsb.fitnesstracker.mail.api.EmailProvider;
-import com.capgemini.wsb.fitnesstracker.mail.api.EmailSender;
-import com.capgemini.wsb.fitnesstracker.training.api.Training;
-import com.capgemini.wsb.fitnesstracker.training.api.TrainingProvider;
+import com.capgemini.wsb.fitnesstracker.mail.api.MailDto;
+import com.capgemini.wsb.fitnesstracker.mail.api.MailProvider;
+import com.capgemini.wsb.fitnesstracker.mail.api.MailSender;
+import com.capgemini.wsb.fitnesstracker.training.api.ExerciseRecord;
+import com.capgemini.wsb.fitnesstracker.training.api.ExerciseRecordProvider;
 import com.capgemini.wsb.fitnesstracker.user.api.User;
 import com.capgemini.wsb.fitnesstracker.user.api.UserProvider;
 import lombok.Data;
@@ -26,44 +26,49 @@ import java.util.stream.Collectors;
 @Slf4j
 @EnableScheduling
 public class NotificationService {
-    private final EmailSender emailSender;
-    private final EmailProvider emailProvider;
-    private final TrainingProvider trainingProvider;
+
+    private final MailSender mailSender;
+    private final MailProvider mailProvider;
+    private final ExerciseRecordProvider exerciseRecordProvider;
     private final UserProvider userProvider;
-    private final String reportString="Monthy report";
 
+    private final String reportString = "Monthly report";
 
-    /**
-     * Generates report and sends it to all users.
-     */
     @Scheduled(cron = "0 0 8 9 * *")
     public void generateReportAndSendMail() {
-        System.out.println("Cron scheduling report generation");
-        List<User> allUsers = userProvider.findAllUsers();
+        log.info("Cron scheduling report generation");
+        List<User> allUsers = userProvider.getAllUsers();
+
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime oneWeekAgo = now.minus(1, ChronoUnit.MONTHS);
+        LocalDateTime oneMonthAgo = now.minus(1, ChronoUnit.MONTHS);
 
         for (User user : allUsers) {
-            List<Training> recentTrainings = trainingProvider.findTrainingByUser(user.getId()).stream()
-                    .filter(training -> toLocalDateTime(training.getStartTime()).isAfter(oneWeekAgo))
+
+            List<ExerciseRecord> recentExerciseRecords = exerciseRecordProvider
+                    .findExerciseRecordsByUser(user.getUserId())
+                    .stream()
+
+                    .filter(record -> toLocalDateTime(record.getStartTime()).isAfter(oneMonthAgo))
                     .collect(Collectors.toList());
-            if (!recentTrainings.isEmpty()) {
-                final EmailDto emailDto = emailProvider.sendMail(user.getEmail(),
+
+            if (!recentExerciseRecords.isEmpty()) {
+
+                final MailDto mailDto = mailProvider.sendEmail(
+                        user.getUserEmail(),
                         reportString,
-                        recentTrainings);
-                emailSender.send(emailDto);
-                System.out.println("sending email");
+                        recentExerciseRecords
+                );
+
+
+                mailSender.send(mailDto);
+                log.info("Report email sent to {}", user.getUserEmail());
             }
         }
     }
 
-    /**
-     * Converts Date to LocalDateTime.
-     *
-     * @param date Date to be converted
-     * @return LocalDateTime
-     */
     private LocalDateTime toLocalDateTime(Date date) {
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return Instant.ofEpochMilli(date.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }

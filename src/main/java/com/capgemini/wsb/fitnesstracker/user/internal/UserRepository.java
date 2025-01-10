@@ -9,29 +9,27 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Repository
 interface UserRepository extends JpaRepository<User, Long> {
 
-    /**
-     * Query searching users by email address. It matches by exact match.
-     *
-     * @param email email of the user to search
-     * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
-     */
-    default Optional<User> findByEmail(String email) {
+
+    default Optional<User> findUserByExactEmail(String email) {
         return findAll().stream()
-                .filter(user -> Objects.equals(user.getEmail(), email))
+                .filter(user -> Objects.equals(user.getUserEmail(), email))
                 .findFirst();
     }
 
-    default List<User> findByEmailFragmentIgnoreCase(String emailFragment) {
+
+    default List<User> findUsersByEmailContainingIgnoreCase(String emailFragment) {
         return findAll().stream()
-                .filter(user -> user.getEmail().toLowerCase().contains(emailFragment.toLowerCase()))
+                .filter(user -> user.getUserEmail().toLowerCase().contains(emailFragment.toLowerCase()))
                 .toList();
     }
 
-    default List<User> findByBirthDateBefore(LocalDate date) {
+
+    default List<User> findUsersByBirthDateBefore(LocalDate date) {
         return findAll().stream()
-                .filter(user -> user.getBirthdate().isBefore(date))
+                .filter(user -> user.getBirthDate().isBefore(date))
                 .toList();
     }
 }
